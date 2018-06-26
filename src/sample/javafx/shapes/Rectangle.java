@@ -5,6 +5,8 @@ import sample.javafx.DisplayForm;
 
 public class Rectangle extends AbstractShape {
 
+    private Shape.ShapeType saveType = ShapeType.RECTANGLE;
+
     public Rectangle(DisplayForm form, Board board, int x, int y, int size) {
         super(form, board, x, y, size);
     }
@@ -12,22 +14,10 @@ public class Rectangle extends AbstractShape {
     @Override
     public void draw() {
         form.drawRectangle(x, y, size, active);
-
     }
 
     @Override
-    public void setActive(boolean b) {
-
+    public Shape copy() {
+        return new Rectangle(form, board, x, y, size);
     }
-
-    @Override
-    public void decrease() {
-
-    }
-
-    @Override
-    public void increase() {
-
-    }
-
 }

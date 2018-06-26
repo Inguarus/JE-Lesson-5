@@ -3,8 +3,7 @@ package sample.javafx.save;
 import sample.javafx.Board;
 import sample.javafx.DisplayForm;
 import sample.javafx.ShapeFactory;
-import sample.javafx.shapes.Group;
-import sample.javafx.shapes.Shape;
+import sample.javafx.shapes.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +50,34 @@ public class ShapeSave {
                 groupList.add(createShape(tmpShapeSave, board, form));
             }
             group.setList(groupList);
+        }
+        return result;
+    }
+
+    public static ShapeSave createShapeSave(Shape shape) {
+        ShapeSave result = new ShapeSave();
+        if (shape instanceof AbstractShape) {
+            AbstractShape abstractShape = (AbstractShape) shape;
+            result.x = abstractShape.getX();
+            result.y = abstractShape.getY();
+            result.size = abstractShape.getSize();
+        }
+        if (shape instanceof Circle) {
+            result.saveType = Shape.ShapeType.CIRCLE;
+        }
+        if (shape instanceof Triangle) {
+            result.saveType = Shape.ShapeType.TRIANGLE;
+        }
+        if (shape instanceof Rectangle) {
+            result.saveType = Shape.ShapeType.RECTANGLE;
+        }
+        if (shape instanceof Group) {
+            Group group = (Group) shape;
+            result.list = new ArrayList<ShapeSave>();
+            for (Shape tmpShape : group.getList()) {
+                result.list.add(createShapeSave(tmpShape));
+            }
+            result.saveType = Shape.ShapeType.GROUP;
         }
         return result;
     }

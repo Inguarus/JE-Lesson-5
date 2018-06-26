@@ -15,18 +15,7 @@ public class Triangle extends AbstractShape {
     }
 
     @Override
-    public void setActive(boolean b) {
-
+    public Shape copy() {
+        return new Triangle(form, board, x, y, size);
     }
-
-    @Override
-    public void decrease() {
-
-    }
-
-    @Override
-    public void increase() {
-
-    }
-
 }

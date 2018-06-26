@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
@@ -16,8 +17,10 @@ import sample.javafx.Config;
 import sample.javafx.DisplayForm;
 import sample.javafx.Signification;
 import sample.javafx.save.Save;
+import sample.javafx.shapes.Shape;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Main extends Application {
 
@@ -36,7 +39,7 @@ public class Main extends Application {
 
         createBoard(canvas, primaryStage);
         registerOnKeyPressListener(primaryStage.getScene());
-
+        registerOnMousePressListener(primaryStage.getScene());
 
     }
 
@@ -68,47 +71,46 @@ public class Main extends Application {
             public void handle(KeyEvent event) {
                 switch (event.getCode()) {
                     case UP:
-
-
+                        board.move(Board.Direction.UP);
                         break;
                     case RIGHT:
-
+                        board.move(Board.Direction.RIGHT);
                         break;
                     case DOWN:
-
+                        board.move(Board.Direction.DOWN);
                         break;
                     case LEFT:
-
+                        board.move(Board.Direction.LEFT);
                         break;
                     case DIGIT1:
-
+                        board.add(Shape.ShapeType.CIRCLE);
                         break;
                     case DIGIT2:
-
+                        board.add(Shape.ShapeType.RECTANGLE);
                         break;
                     case DIGIT3:
-
+                        board.add(Shape.ShapeType.TRIANGLE);
                         break;
                     case PAGE_DOWN:
-
+                        board.previous();
                         break;
                     case PAGE_UP:
-
+                        board.next();
                         break;
                     case Q:
-                        board.increase();
-                        break;
-                    case W:
                         board.decrease();
                         break;
+                    case W:
+                        board.increase();
+                        break;
                     case DELETE:
-
+                        board.remove();
                         break;
                     case S:
-
+                        saveScene();
                         break;
                     case L:
-
+                        loadScene();
                         break;
                 }
             }
@@ -126,6 +128,31 @@ public class Main extends Application {
         } catch (Exception e) {
             System.out.println("Can't load from file");
         }
+    }
+
+    private void saveScene() {
+        Gson gson = new GsonBuilder().create();
+        String jsonString = gson.toJson(board.makeSave());
+        File f = new File(Signification.SAVE_FILE);
+        try {
+            FileUtils.writeStringToFile(f, jsonString, "windows-1251", false);
+        } catch (IOException e) {
+            System.out.println("Can't save to file");
+        }
+    }
+
+    public void registerOnMousePressListener(Scene scene) {
+        scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.isControlDown()) {
+                    board.merge((int) event.getSceneX(), (int) event.getSceneY(), true);
+                }
+                if (event.isShiftDown()) {
+                    board.merge((int) event.getSceneX(), (int) event.getSceneY(), false);
+                }
+            }
+        });
     }
 
 

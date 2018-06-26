@@ -9,17 +9,13 @@ public abstract class AbstractShape implements Shape {
 
     protected DisplayForm form;
     protected Board board;
-    protected final int WIDTH = 30;
-    protected final int HEIGHT = 30;
     protected int size;
-    protected double x;
-    protected double y;
+    protected int x;
+    protected int y;
     protected boolean active;
-    protected double speedX;
-    protected double speedY;
 
 
-    public AbstractShape(DisplayForm form, Board board, int size, double x, double y) {
+    public AbstractShape(DisplayForm form, Board board, int size, int x, int y) {
         this.form = form;
         this.board = board;
         this.size = size;
@@ -27,6 +23,23 @@ public abstract class AbstractShape implements Shape {
         this.y = y;
     }
 
+    @Override
+    public void move(Board.Direction direction) {
+        switch (direction) {
+            case UP:
+                y -= Signification.SPEED;
+                break;
+            case RIGHT:
+                x += Signification.SPEED;
+                break;
+            case DOWN:
+                y += Signification.SPEED;
+                break;
+            case LEFT:
+                x -= Signification.SPEED;
+                break;
+        }
+    }
 
     @Override
     public void decrease() {
@@ -44,18 +57,31 @@ public abstract class AbstractShape implements Shape {
         }
     }
 
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    @Override
+    public boolean consistPoint(int sceneX, int sceneY) {
+        return between(sceneX, x, x + size) && between(sceneY, y, y + size);
+    }
+
+    private static boolean between(int test, int a, int b) {
+        return test >= a && test <= b;
+    }
+
     public int getSize() {
         return size;
     }
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public double getY() {
+    public int getY() {
         return y;
     }
-
 
     public abstract void draw();
 }

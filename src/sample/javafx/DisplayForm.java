@@ -12,7 +12,7 @@ public class DisplayForm {
     }
 
     public void cleanScreen() {
-        gc.clearRect(0, 0, Config.WIDTH, Config.HEIGHT);
+        gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
     }
 
     public void drawCircle(double x, double y, int size, boolean full) {

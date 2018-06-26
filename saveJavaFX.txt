@@ -1,0 +1,1 @@
+{"list":[{"saveType":"CIRCLE","size":75,"x":140,"y":80},{"saveType":"RECTANGLE","size":45,"x":80,"y":30},{"saveType":"TRIANGLE","size":50,"x":70,"y":125}],"activeShapeIndex":2}

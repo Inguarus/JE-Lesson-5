@@ -15,18 +15,7 @@ public class Circle extends AbstractShape {
     }
 
     @Override
-    public void setActive(boolean active) {
-
+    public Shape copy() {
+        return new Circle(form, board, x, y, size);
     }
-
-    @Override
-    public void decrease() {
-
-    }
-
-    @Override
-    public void increase() {
-
-    }
-
 }
